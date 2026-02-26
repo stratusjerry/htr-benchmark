@@ -5,11 +5,19 @@ from datetime import datetime
 from pathlib import Path
 
 
+def _make_prefix(results: list[dict]) -> str:
+    """Build a filename prefix from the model names in the results."""
+    models = sorted({r["model"] for r in results})
+    safe = "_".join(m.replace("/", "_").replace(" ", "_") for m in models)
+    return safe
+
+
 def save_csv(results: list[dict], output_dir: Path) -> Path:
     """Save results to a CSV file (metrics only, no full text)."""
     output_dir.mkdir(parents=True, exist_ok=True)
+    prefix = _make_prefix(results)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    csv_path = output_dir / f"benchmark_{timestamp}.csv"
+    csv_path = output_dir / f"benchmark_{prefix}_{timestamp}.csv"
 
     fieldnames = [
         "sample", "model", "provider", "pages",
@@ -29,8 +37,9 @@ def save_csv(results: list[dict], output_dir: Path) -> Path:
 def save_json(results: list[dict], output_dir: Path) -> Path:
     """Save full results including transcriptions to JSON."""
     output_dir.mkdir(parents=True, exist_ok=True)
+    prefix = _make_prefix(results)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    json_path = output_dir / f"benchmark_{timestamp}.json"
+    json_path = output_dir / f"benchmark_{prefix}_{timestamp}.json"
 
     with open(json_path, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2, ensure_ascii=False)
@@ -41,8 +50,9 @@ def save_json(results: list[dict], output_dir: Path) -> Path:
 def save_transcriptions(results: list[dict], output_dir: Path) -> Path:
     """Save individual transcription text files for side-by-side comparison."""
     output_dir.mkdir(parents=True, exist_ok=True)
+    prefix = _make_prefix(results)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    trans_dir = output_dir / f"transcriptions_{timestamp}"
+    trans_dir = output_dir / f"transcriptions_{prefix}_{timestamp}"
     trans_dir.mkdir(exist_ok=True)
 
     for r in results:

@@ -18,7 +18,7 @@ Inspired by [Has Google Quietly Solved Two of Genealogy's Biggest Problems?](htt
 ## How It Works
 
 1. Place handwritten PDF samples in `files/`
-2. Generate ground truth by running Google Gemini on each PDF (`--generate-ground-truth`)
+2. Generate ground truth `.txt` files by running `python run_benchmark.py --generate-ground-truth`, which uses Google Gemini 2.0 Flash to transcribe each PDF
 3. Run other models against the Gemini baseline and compare using CER and WER
 4. Results are saved as CSV, JSON, and side-by-side transcription files in `output/`
 
