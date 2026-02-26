@@ -2,8 +2,10 @@
 
 Usage:
     python run_benchmark.py --generate-ground-truth            # Step 1: generate ground truth via Gemini
+    python run_benchmark.py --generate-ground-truth --batch    # Step 1: via Gemini batch API (cheaper)
     python run_benchmark.py                                    # Step 2: run all models
     python run_benchmark.py --models "gemma-3-12b"             # Run one local model
+    python run_benchmark.py --batch                            # Use Gemini batch API for Gemini models
     python run_benchmark.py --list-models                      # List available models
 """
 import argparse
@@ -36,6 +38,10 @@ def main():
         "--generate-ground-truth", action="store_true",
         help="Run Gemini on all PDFs to generate ground truth .txt files, then exit",
     )
+    parser.add_argument(
+        "--batch", action="store_true",
+        help="Use Gemini batch API instead of standard API (cheaper, slower)",
+    )
     args = parser.parse_args()
 
     if args.list_models:
@@ -45,12 +51,12 @@ def main():
         return
 
     if args.generate_ground_truth:
-        generated = generate_ground_truth(args.files_dir)
+        generated = generate_ground_truth(args.files_dir, batch=args.batch)
         if generated:
             print(f"\nGenerated {len(generated)} ground truth file(s).")
         return
 
-    results = run_benchmark(args.files_dir, args.models)
+    results = run_benchmark(args.files_dir, args.models, batch=args.batch)
 
     if results:
         csv_path = save_csv(results, args.output_dir)

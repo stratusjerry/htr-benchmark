@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 class ModelConfig:
     name: str       # Human-readable display name
     model_id: str   # Model identifier for API calls
-    provider: str   # "gemini" or "lmstudio"
+    provider: str   # "gemini", "bedrock", or "lmstudio"
 
 
 # Model registry — all supported benchmark targets.
@@ -15,9 +15,19 @@ class ModelConfig:
 # Check http://localhost:1234/v1/models to see loaded model identifiers.
 MODELS: list[ModelConfig] = [
     ModelConfig(
-        name="Google Gemini 2.0 Flash",
-        model_id="gemini-2.0-flash",
+        name="Gemini 3.1 Pro Preview",
+        model_id="gemini-3.1-pro-preview",
         provider="gemini",
+    ),
+    ModelConfig(
+        name="Gemini 3 Pro Preview",
+        model_id="gemini-3-pro-preview",
+        provider="gemini",
+    ),
+    ModelConfig(
+        name="Claude Sonnet 4.6",
+        model_id="us.anthropic.claude-sonnet-4-6",
+        provider="bedrock",
     ),
     ModelConfig(
         name="Llama 3.2 11B Vision",
@@ -48,6 +58,9 @@ MODELS: list[ModelConfig] = [
 
 LMSTUDIO_BASE_URL = "http://localhost:1234/v1"
 
+# Bedrock API key gateway URL, e.g. https://<gateway-id>.bedrock-gateway.<region>.amazonaws.com/v1
+BEDROCK_BASE_URL = os.getenv("BEDROCK_BASE_URL", "")
+
 HTR_PROMPT = (
     "Transcribe all handwritten text visible in this image. "
     "Return only the transcribed text, preserving line breaks. "
@@ -60,4 +73,6 @@ def load_config() -> dict:
     load_dotenv()
     return {
         "gemini_api_key": os.getenv("GEMINI_API_KEY"),
+        "bedrock_api_key": os.getenv("BEDROCK_API_KEY"),
+        "bedrock_base_url": os.getenv("BEDROCK_BASE_URL", ""),
     }

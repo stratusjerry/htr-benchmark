@@ -6,19 +6,21 @@ Inspired by [Has Google Quietly Solved Two of Genealogy's Biggest Problems?](htt
 
 ## Supported Models
 
-| Model                              | Provider          |
-| ---------------------------------- | ----------------- |
-| Google Gemini 2.0 Flash (baseline) | Google Gemini API |
-| Llama 3.2 11B Vision               | LMStudio (local)  |
-| DeepSeek-OCR-GGUF                  | LMStudio (local)  |
-| gemma-3-12b                        | LMStudio (local)  |
-| gemma-3-27b                        | LMStudio (local)  |
-| allenai/olmocr-2-7b                | LMStudio (local)  |
+| Model                                | Provider                |
+| ------------------------------------ | ----------------------- |
+| Gemini 3.1 Pro Preview (baseline)    | Google Gemini API       |
+| Gemini 3 Pro Preview                 | Google Gemini API       |
+| Claude Sonnet 4.6                    | AWS Bedrock             |
+| Llama 3.2 11B Vision                 | LMStudio (local)        |
+| DeepSeek-OCR-GGUF                    | LMStudio (local)        |
+| gemma-3-12b                          | LMStudio (local)        |
+| gemma-3-27b                          | LMStudio (local)        |
+| allenai/olmocr-2-7b                  | LMStudio (local)        |
 
 ## How It Works
 
 1. Place handwritten PDF samples in `files/`
-2. Generate ground truth `.txt` files by running `python run_benchmark.py --generate-ground-truth`, which uses Google Gemini 2.0 Flash to transcribe each PDF
+2. Generate ground truth `.txt` files by running `python run_benchmark.py --generate-ground-truth`, which uses Gemini 3.1 Pro Preview to transcribe each PDF
 3. Run other models against the Gemini baseline and compare using CER and WER
 4. Results are saved as CSV, JSON, and side-by-side transcription files in `output/`
 
@@ -26,7 +28,7 @@ Inspired by [Has Google Quietly Solved Two of Genealogy's Biggest Problems?](htt
 
 ```bash
 uv sync --extra dev
-cp .env.example .env  # Add your GEMINI_API_KEY
+cp .env.example .env  # Add your API keys (GEMINI_API_KEY, BEDROCK_API_KEY, BEDROCK_BASE_URL)
 ```
 
 ### Step 1: Generate ground truth
@@ -54,5 +56,6 @@ Run other models against the ground truth:
 ```bash
 uv run python run_benchmark.py                         # All models
 uv run python run_benchmark.py --models "gemma-3-12b"  # Single model
-uv run python run_benchmark.py --list-models            # Show available models
+uv run python run_benchmark.py --batch                 # Gemini batch API (cheaper)
+uv run python run_benchmark.py --list-models           # Show available models
 ```
