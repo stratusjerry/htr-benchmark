@@ -1,0 +1,24 @@
+output/
+files/
+
+# OpenWebUI
+.webui_secret_key
+*.pid
+
+# IDE
+.idea
+.vscode
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# Environment
+.env
+.venv/
+venv/

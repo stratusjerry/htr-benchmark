@@ -1,0 +1,24 @@
+[project]
+name = "htr-benchmark"
+version = "0.1.0"
+description = "Benchmark AI models on handwritten text recognition from PDF samples"
+requires-python = ">=3.11"
+dependencies = [
+    "google-genai>=1.0.0",
+    "openai>=1.0.0",
+    "pymupdf>=1.24.0",
+    "jiwer>=3.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[tool.setuptools.packages.find]
+include = ["htr_benchmark*"]
+
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
