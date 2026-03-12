@@ -29,7 +29,7 @@ class GeminiModel(HTRModel):
                 )
             ],
         )
-        return response.text.strip()
+        return (response.text or "").strip()
 
     def transcribe_batch(self, images_base64: list[str], prompt: str) -> list[str]:
         """Submit all images as a batch job, poll until done, return results."""

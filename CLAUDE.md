@@ -16,7 +16,8 @@ uv sync --extra dev
 cp .env.example .env            # Add API keys
 
 # Step 1: Generate ground truth (Gemini transcribes all PDFs in files/)
-uv run python run_benchmark.py --generate-ground-truth
+uv run python run_benchmark.py --generate-ground-truth                  # Standard API
+uv run python run_benchmark.py --generate-ground-truth --batch          # Batch API (cheaper, slower)
 
 # Step 2: Run benchmarks against ground truth
 uv run python run_benchmark.py                                     # All models

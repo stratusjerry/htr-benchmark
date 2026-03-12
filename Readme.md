@@ -36,10 +36,11 @@ cp .env.example .env  # Add your API keys (GEMINI_API_KEY, BEDROCK_API_KEY, BEDR
 Place PDF samples in `files/`, then run Gemini to generate baseline transcriptions:
 
 ```bash
-uv run python run_benchmark.py --generate-ground-truth
+uv run python run_benchmark.py --generate-ground-truth         # Standard API
+uv run python run_benchmark.py --generate-ground-truth --batch # Batch API (cheaper, slower)
 ```
 
-This creates a `.txt` file alongside each PDF using Gemini's transcription as the reference baseline. PDFs that already have a `.txt` file are skipped.
+This creates a `.txt` file alongside each PDF using Gemini's transcription as the reference baseline. PDFs that already have a `.txt` file are skipped. Use `--batch` to submit all pages in a single batch job via the Gemini batch API, which is cheaper but slower.
 
 ```
 files/

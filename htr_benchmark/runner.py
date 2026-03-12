@@ -203,7 +203,7 @@ def _generate_ground_truth_batch(model: GeminiModel, to_process: list[dict]) -> 
     return generated
 
 
-def generate_ground_truth(files_dir: Path, batch: bool = False) -> list[Path]:
+def generate_ground_truth(files_dir: Path, batch: bool = False, include: list[str] | None = None) -> list[Path]:
     """Run Gemini on all PDFs and save transcriptions as ground truth .txt files.
 
     Skips PDFs that already have a .txt file.
@@ -211,6 +211,7 @@ def generate_ground_truth(files_dir: Path, batch: bool = False) -> list[Path]:
     Args:
         files_dir: Directory containing PDF files.
         batch: If True, use Gemini batch API instead of standard API.
+        include: Optional list of PDF filenames to process. If None, processes all.
 
     Returns:
         List of paths to generated .txt files.
@@ -220,6 +221,9 @@ def generate_ground_truth(files_dir: Path, batch: bool = False) -> list[Path]:
         raise ValueError("GEMINI_API_KEY not set in .env file")
 
     pdfs = discover_pdfs(files_dir)
+    if include is not None:
+        include_stems = {Path(f).stem for f in include}
+        pdfs = [p for p in pdfs if p["name"] in include_stems]
     if not pdfs:
         print("No PDF files found in", files_dir)
         return []
@@ -252,6 +256,7 @@ def run_benchmark(
     files_dir: Path,
     model_names: list[str] | None = None,
     batch: bool = False,
+    include: list[str] | None = None,
 ) -> list[dict]:
     """Run the full benchmark.
 
@@ -259,12 +264,16 @@ def run_benchmark(
         files_dir: Directory containing PDFs and .txt ground truth files.
         model_names: Optional list of model names to run. If None, runs all.
         batch: If True, use Gemini batch API instead of standard API.
+        include: Optional list of PDF filenames to process. If None, processes all.
 
     Returns:
         List of result dicts, one per (sample, model) combination.
     """
     config = load_config()
     samples = discover_samples(files_dir)
+    if include is not None:
+        include_stems = {Path(f).stem for f in include}
+        samples = [s for s in samples if s["name"] in include_stems]
 
     if not samples:
         print("No samples with ground truth found. Exiting.")
