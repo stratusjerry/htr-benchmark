@@ -23,7 +23,7 @@ def build_model(model_cfg: ModelConfig, config: dict):
             config["bedrock_api_key"], config["bedrock_base_url"],
         )
     elif model_cfg.provider == "lmstudio":
-        return LMStudioModel(model_cfg.name, model_cfg.model_id, LMSTUDIO_BASE_URL)
+        return LMStudioModel(model_cfg.name, model_cfg.model_id, LMSTUDIO_BASE_URL, model_cfg.max_image_size)
     else:
         raise ValueError(f"Unknown provider: {model_cfg.provider}")
 

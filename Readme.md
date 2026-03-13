@@ -15,6 +15,7 @@ Inspired by [Has Google Quietly Solved Two of Genealogy's Biggest Problems?](htt
 | DeepSeek-OCR-GGUF                    | LMStudio (local)        |
 | gemma-3-12b                          | LMStudio (local)        |
 | gemma-3-27b                          | LMStudio (local)        |
+| qwen3-vl-8b                          | LMStudio (local)        |
 | allenai/olmocr-2-7b                  | LMStudio (local)        |
 
 ## How It Works

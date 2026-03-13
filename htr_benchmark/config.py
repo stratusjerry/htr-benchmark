@@ -5,9 +5,10 @@ from dotenv import load_dotenv
 
 @dataclass
 class ModelConfig:
-    name: str       # Human-readable display name
-    model_id: str   # Model identifier for API calls
-    provider: str   # "gemini", "bedrock", or "lmstudio"
+    name: str                    # Human-readable display name
+    model_id: str                # Model identifier for API calls
+    provider: str                # "gemini", "bedrock", or "lmstudio"
+    max_image_size: int | None = None  # Resize longest edge before sending (pixels)
 
 
 # Model registry — all supported benchmark targets.
@@ -53,6 +54,12 @@ MODELS: list[ModelConfig] = [
         name="olmocr-2-7b",
         model_id="allenai/olmocr-2-7b",
         provider="lmstudio",
+    ),
+    ModelConfig(
+        name="qwen3-vl-8b",
+        model_id="qwen3-vl-8b",
+        provider="lmstudio",
+        max_image_size=1120,
     ),
 ]
 
