@@ -67,6 +67,12 @@ MODELS: list[ModelConfig] = [
         provider="lmstudio",
         max_image_size=1120,
     ),
+    ModelConfig(
+        name="GLM-OCR-GGUF",
+        model_id="ggml-org/glm-ocr-gguf",
+        provider="lmstudio",
+        max_image_size=1120,
+    ),
 ]
 
 LMSTUDIO_BASE_URL = "http://localhost:1234/v1"
