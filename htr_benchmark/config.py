@@ -61,6 +61,12 @@ MODELS: list[ModelConfig] = [
         provider="lmstudio",
         max_image_size=1120,
     ),
+    ModelConfig(
+        name="qwen3-vl-30b",
+        model_id="qwen3-vl-30b",
+        provider="lmstudio",
+        max_image_size=1120,
+    ),
 ]
 
 LMSTUDIO_BASE_URL = "http://localhost:1234/v1"
